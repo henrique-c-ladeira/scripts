@@ -3,8 +3,8 @@ const fs = require("fs/promises");
 (async () => {
   const args = process.argv.slice(2).join(' ');
   
-  const checkDir = args.match(/(--dir|-d) [^ ]*/g)?.[0]?.split(' ')?.[1];
-  if(!checkDir) throw new Error('Specify --dir or -d options.');
+  const dirToCheck = args.match(/(--dir|-d) [^ ]*/g)?.[0]?.split(' ')?.[1];
+  if(!dirToCheck) throw new Error('Specify --dir or -d options.');
 
   const stylePath = args.match(/(--style|-s) [^ ]*/g)?.[0]?.split(' ')?.[1];
   if(!stylePath) throw new Error('Specify --style or -s options.');
@@ -12,9 +12,9 @@ const fs = require("fs/promises");
   const filesToCheck = args.match(/(--files|-f).[^-]*/g)?.[0]?.split(' ')?.splice(1);
   if(!filesToCheck) throw new Error('Specify --files or -f options.');
 
-  const styleFile = await fs.readFile(stylePath);
+  const styleFile = await fs.readFile(`${dirToCheck}${stylePath}`);
   const screenFiles = await Promise.all(
-    filesToCheck.map((elem) => fs.readFile(elem))
+    filesToCheck.map((elem) => fs.readFile(`${dirToCheck}${elem}`))
   );
 
   const styles = styleFile
