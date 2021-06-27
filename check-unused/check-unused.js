@@ -9,7 +9,7 @@ const fs = require("fs/promises");
   const stylePath = args.match(/(--style|-s) [^ ]*/g)?.[0]?.split(' ')?.[1];
   if(!stylePath) throw new Error('Specify --style or -s options.');
 
-  const filesToCheck = args.match(/(--files|-f).[^-]*/g)?.[0]?.split(' ')?.splice(1);
+  const filesToCheck = args.match(/(--files|-f).[^-]*/g)?.[0]?.split(' ')?.slice(1);
   if(!filesToCheck) throw new Error('Specify --files or -f options.');
 
   const styleFile = await fs.readFile(`${dirToCheck}${stylePath}`);
